@@ -19,6 +19,10 @@ poetry install
 
 ## Start
 ### Front
+Start the vite development server using:
+```commandline
+npm run dev
+```
 
 ### Back
 Activate the virtual environment. For example using Poetry and inside the `app` directory:
