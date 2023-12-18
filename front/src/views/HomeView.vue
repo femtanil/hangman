@@ -10,6 +10,9 @@
 </template>
 
 <script setup>
-import background from '@/assets/background.jpg'
-import HomeMenu from '@/components/HomeMenu.vue'
+import background from '@/assets/background.jpg';
+import HomeMenu from '@/components/HomeMenu.vue';
+import { useGameStore } from '@/stores/game.js';
+
+const gameStore = useGameStore();
 </script>

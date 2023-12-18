@@ -13,5 +13,4 @@
     </menu>
 </template>
 <script setup>
-import { useGameStore } from '@/stores/game.js'
 </script>
