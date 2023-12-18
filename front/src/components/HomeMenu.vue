@@ -13,8 +13,5 @@
     </menu>
 </template>
 <script setup>
-const emit = defineEmits(['newGame', 'loadGame'])
-const newGame = () => emit('newGame', true)
-const loadGame = () => emit('loadGame', true)
-//import { useGameStore } from '@/stores/game.js'
+import { useGameStore } from '@/stores/game.js'
 </script>
