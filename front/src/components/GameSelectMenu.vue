@@ -15,7 +15,6 @@
 
 <script setup>
 import { useGameStore } from '@/stores/game.js';
-import { storeToRefs } from 'pinia';
 
 const gameStore = useGameStore();
 </script>
