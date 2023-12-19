@@ -7,7 +7,7 @@
         <h1 class="absolute left-1/2 -translate-x-1/2 top-1/4 -translate-y-1/4 text-7xl sm:text-9xl">hangman</h1>
     </div>
     <SelectMenu v-if="showSelectMenu"></SelectMenu>
-    <PlayerForm v-if="!showSelectMenu" v-slot:formTitle>{{ gameFormTitle }}</PlayerForm>
+    <PlayerForm v-if="!showSelectMenu" v-slot:formTitle>{{ playerFormTitle }}</PlayerForm>
 </template>
 
 <script setup>
@@ -28,7 +28,7 @@ const showSelectMenu = computed(() => {
     }
 })
 
-const gameFormTitle = computed(() => {
+const playerFormTitle = computed(() => {
     if (gameStore.newGame == true) {
         return 'Create player';
     }
