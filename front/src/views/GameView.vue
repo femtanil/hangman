@@ -7,7 +7,7 @@
         <h1 class="absolute left-1/2 -translate-x-1/2 top-1/4 -translate-y-1/4 text-7xl sm:text-9xl">hangman</h1>
     </div>
     <SelectMenu v-if="showSelectMenu"></SelectMenu>
-    <component :is="gameFormComponent"></component>
+    <PlayerForm v-if="!showSelectMenu" v-slot:formTitle>{{ gameFormTitle }}</PlayerForm>
 </template>
 
 <script setup>
@@ -15,8 +15,7 @@ import { useGameStore } from '@/stores/game.js';
 import { computed } from 'vue';
 import background from '@/assets/background.jpg';
 import SelectMenu from '@/components/GameSelectMenu.vue';
-import NewGameForm from '@/components/NewGameForm.vue';
-import LoadGameForm from '@/components/LoadGameForm.vue';
+import PlayerForm from '@/components/GamePlayerForm.vue';
 
 const gameStore = useGameStore();
 
@@ -29,12 +28,12 @@ const showSelectMenu = computed(() => {
     }
 })
 
-const gameFormComponent = computed(() => {
+const gameFormTitle = computed(() => {
     if (gameStore.newGame == true) {
-        return NewGameForm;
+        return 'Create player';
     }
     else if (gameStore.loadGame == true) {
-        return LoadGameForm;
+        return 'Load player';
     }
 })
 </script>
