@@ -8,13 +8,10 @@
             <input type="submit" value="Start"
                 class=" btn btn-ghost rounded-none text-3xl xs:text-4xl active:bg-transparent w-full" />
             <!-- Very unsafe, but it's just a demo -->
-            <button @click="gameStore.resetNewGame()"
-                class="btn btn-ghost rounded-none text-3xl xs:text-4xl active:bg-transparent w-full">Select
-                Screen</button>
+            <SelectScreenButton />
         </div>
     </form>
 </template>
 <script setup>
-import { useGameStore } from '@/stores/game.js';
-const gameStore = useGameStore();
+import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 </script>
