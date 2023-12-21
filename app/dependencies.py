@@ -16,13 +16,10 @@ load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=False)
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token", auto_error=True)
 
 
 async def validate_token(token: Annotated[str, Depends(oauth2_scheme)]):
-    if token is None:
-        return None
-
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -59,22 +56,16 @@ async def get_current_active_player(
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Player not authenticated"
         )
-    elif current_player.disabled:
+    elif current_player.banned:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive player"
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Player is banned"
         )
     return current_player
 
 
 async def create_new_player(
-    token_data: Annotated[str, Depends(validate_token)], player: PlayerCreate
+    token_data: Annotated[TokenData, Depends(validate_token)], player: PlayerCreate
 ):
-    if token_data is not None:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Authenticated players cannot create new players",
-        )
-
     with Session(engine) as session:
         try:
             # Should not be possible, but better be bulletproof.
@@ -85,6 +76,11 @@ async def create_new_player(
             )
         except NoResultFound:
             pass
+    if token_data.username != player.username:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username in token does not match username in request",
+        )
     hashed_password: str = get_password_hash(player.password)
     new_player = Player(username=player.username, hashed_password=hashed_password)
     db_player = Player.model_validate(new_player)
