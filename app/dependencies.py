@@ -20,11 +20,12 @@ ALGORITHM = os.getenv("ALGORITHM")
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="login",
     scopes={
-        "user:own": "Access information about the current user.",
-        "user": "Read only acces to full user information.",
-        "user.write": "The ability to create, update or delete an entire user.",
-        "user:player": "Read only access to details about user's players.",
-        "user:player.write": "The ability to change player details for a user.",
+        "user.create": "The ability to create a new user.",
+        "user:own": "Read only access to the current user's information.",
+        "user:own.write": "The ability to change the current user's information.",
+        "user:own:player": "Read only access to the current user's player.",
+        "user:own:player.write": "The ability to change the current user's player.",
+        "user:others:player:points": "Read only access to players' points.",
         "admin": "Full access to all information.",
     },
     auto_error=True,
