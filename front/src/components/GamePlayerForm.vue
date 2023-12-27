@@ -10,8 +10,8 @@
                 <label for="password" class="text-3xl xs:text-4xl">Password</label>
                 <input type="password" id="password" name="password" v-model="password" class="text-3xl xs:text-4xl" />
                 <div v-if="props.confirmPassword">
-                    <label for="password2" class="text-3xl xs:text-4xl">Confirm password</label>
-                    <input type="password" id="password2" name="password2" v-model="password2"
+                    <label for="passwordConfirmation" class="text-3xl xs:text-4xl">Confirm password</label>
+                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" v-model="passwordConfirmation"
                         class="text-3xl xs:text-4xl" />
                 </div>
                 <!-- Very unsafe, but it's just a demo -->
@@ -33,12 +33,22 @@ const gameStore = useGameStore();
 const playerStore = usePlayerStore();
 const username = ref('')
 const password = ref('')
+const passwordConfirmation = ref('')
 const props = defineProps({
     confirmPassword: {
         type: Boolean,
         required: true
     }
 })
+
+async function createNewPlayer(username, password) {
+    try {
+        playerStore.playerData
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
 async function submitForm() {
     const loginFormData = new FormData();

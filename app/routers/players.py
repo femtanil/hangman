@@ -1,14 +1,12 @@
 import os
 from typing import Annotated
-from datetime import timedelta
 
 from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.authentication import create_access_token
 from app.dependencies import get_current_active_player, create_new_player
-from app.models import Player, PlayerRead, Token
+from app.models import Player, PlayerRead
 from app.database import get_session
 
 load_dotenv()
