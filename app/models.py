@@ -22,7 +22,7 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
-    roles: str = ""
+    roles: str
 
 
 class UserCreate(UserBase):
@@ -88,6 +88,7 @@ def create_unauthenticated_user():
         username="unauthenticated",
         hashed_password="$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         player_id=0,
+        roles="user:create,user:own.write,user:player,user:own:player.write,user:others:player:points",
     )
     db_user = User.model_validate(user)
     session = Session(engine)
