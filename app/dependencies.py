@@ -165,6 +165,24 @@ async def get_users(
         return users
 
 
+async def get_user_by_id(user_id: int) -> User:
+    with Session(engine) as session:
+        try:
+            user = session.exec(select(User).where(User.id == user_id)).one()
+            return user
+        except AttributeError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+            )
+
+
+async def get_user(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    user_id: int,
+) -> User:
+    return await get_user_by_id(user_id)
+
+
 async def get_own_player(
     token_data: Annotated[
         TokenData, Security(validate_token, scopes=["user:own:player"])

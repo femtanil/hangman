@@ -5,7 +5,7 @@ from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.dependencies import get_users, get_own_user, create_new_user
+from app.dependencies import get_user, get_users, get_own_user, create_new_user
 from app.models import User, UserRead
 from app.database import get_session
 
@@ -24,10 +24,7 @@ async def create_user(user: Annotated[User, Depends(create_new_user)]):
 
 
 @router.get("/id={user_id}", response_model=UserRead)
-async def read_user(user_id: int, session: Session = Depends(get_session)):
-    user = session.get(User, user_id)
-    if not user:
-        raise HTTPException(status_code=404, detail="User not found")
+async def read_user(user: User = Depends(get_user)):
     return user
 
 
