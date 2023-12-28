@@ -5,8 +5,9 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routers import logic
 
-from .routers import tokens, players
+from .routers import tokens, users, players
 from .database import create_db_and_tables
+from .models import create_fake_player, create_unauthenticated_user, create_admin_user
 
 origins = [
     "http://localhost:5173",
@@ -19,6 +20,9 @@ origins = [
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_db_and_tables()
+    create_admin_user()
+    create_fake_player()
+    create_unauthenticated_user()
     yield
 
 
@@ -31,6 +35,7 @@ api.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-api.include_router(logic.router)
 api.include_router(tokens.router)
+api.include_router(logic.router)
 api.include_router(players.router)
+api.include_router(users.router)
