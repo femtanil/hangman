@@ -22,7 +22,7 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
-    banned: bool = False
+    banned: bool = Field(default=False)
     roles: str = Field(
         default="user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername"
     )
@@ -72,7 +72,6 @@ def create_fake_player():
         points=1337,
         games_played=1,
         games_won=1,
-        banned=False,
         id=0,
     )
     db_player = Player.model_validate(player)
@@ -86,10 +85,27 @@ def create_fake_player():
 
 def create_unauthenticated_user():
     user: User = User(
-        id=0,
+        id=1,
         username="unauthenticated",
         hashed_password="$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
         player_id=0,
+    )
+    db_user = User.model_validate(user)
+    session = Session(engine)
+    session.add(db_user)
+    try:
+        session.commit()
+    except IntegrityError:
+        pass
+
+
+def create_admin_user():
+    user: User = User(
+        id=0,
+        username="admin",
+        hashed_password="$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
+        player_id=0,
+        roles="admin",
     )
     db_user = User.model_validate(user)
     session = Session(engine)

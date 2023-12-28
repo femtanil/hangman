@@ -7,7 +7,7 @@ from app.routers import logic
 
 from .routers import tokens, users, players
 from .database import create_db_and_tables
-from .models import create_fake_player, create_unauthenticated_user
+from .models import create_fake_player, create_unauthenticated_user, create_admin_user
 
 origins = [
     "http://localhost:5173",
@@ -20,6 +20,7 @@ origins = [
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     create_db_and_tables()
+    create_admin_user()
     create_fake_player()
     create_unauthenticated_user()
     yield

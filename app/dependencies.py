@@ -1,7 +1,7 @@
 import os
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, Security, status
+from fastapi import Depends, HTTPException, Query, Security, status
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from jose import JWTError, jwt
 from dotenv import load_dotenv
@@ -153,6 +153,16 @@ async def create_new_user(
         session.commit()
         session.refresh(db_user)
     return db_user
+
+
+async def get_users(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    offset: int = 0,
+    limit: int = Query(default=100, le=100),
+):
+    with Session(engine) as session:
+        users = session.exec(select(User).offset(offset).limit(limit)).all()
+        return users
 
 
 async def get_own_player(

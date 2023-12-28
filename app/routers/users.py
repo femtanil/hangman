@@ -5,7 +5,7 @@ from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.dependencies import get_own_user, create_new_user
+from app.dependencies import get_users, get_own_user, create_new_user
 from app.models import User, UserRead
 from app.database import get_session
 
@@ -33,16 +33,11 @@ async def read_user(user_id: int, session: Session = Depends(get_session)):
 
 @router.get("/", response_model=list[UserRead])
 async def read_users(
-    offset: int = 0,
-    limit: int = Query(default=100, le=100),
-    session: Session = Depends(get_session),
+    users: Annotated[list[User], Depends(get_users)],
 ):
-    users = session.exec(select(User).offset(offset).limit(limit)).all()
     return users
 
 
 @router.get("/me", response_model=UserRead)
-async def read_own_user(
-    current_user: Annotated[User, Depends(get_own_user)]
-):
+async def read_own_user(current_user: Annotated[User, Depends(get_own_user)]):
     return current_user
