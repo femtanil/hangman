@@ -186,12 +186,6 @@ async def create_new_player(
     ],
     player: PlayerCreate,
 ):
-    if token_data.username != player.username:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Player in token and body do not match",
-        )
-
     with Session(engine) as session:
         try:
             # Should not be possible, but better be bulletproof.
