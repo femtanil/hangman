@@ -37,14 +37,6 @@ def authenticate_user(username: str, password: str):
     return user
 
 
-def get_user_scopes(user: User) -> str:
-    scopes = "user:own"  # Default scope for any user.
-
-    if user.roles == "admin":
-        scopes = scopes + " admin"
-    return scopes
-
-
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
     if expires_delta:

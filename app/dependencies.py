@@ -32,12 +32,23 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 
 
+async def get_user(username: str) -> User:
+    with Session(engine) as session:
+        try:
+            user = session.exec(select(User).where(User.username == username)).one()
+            return user
+        except AttributeError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+            )
+
+
 async def validate_token(
     security_scopes: SecurityScopes, token: Annotated[str, Depends(oauth2_scheme)]
-) -> (TokenData):
+) -> TokenData:
     """Validate token and check if it has the required scopes.
     Args:
-        security_scopes: Required scopes.
+        security_scopes: Scopes required by the dependent.
         token: Token to validate.
     Returns:
         A TokenData instance representing the token data.
@@ -46,9 +57,15 @@ async def validate_token(
         authenticate_value = f'Bearer scope="{security_scopes.scope_str}"'
     else:
         authenticate_value = "Bearer"
+
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
+        headers={"WWW-Authenticate": authenticate_value},
+    )
+    permissions_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Not enough permissions",
         headers={"WWW-Authenticate": authenticate_value},
     )
 
@@ -61,13 +78,22 @@ async def validate_token(
         token_data = TokenData(scopes=token_scopes, username=username)
     except (JWTError, ValidationError):
         raise credentials_exception
+
+    try:
+        assert token_data.username is not None
+        user = await get_user(token_data.username)
+        user_scopes: list[str] = user.roles.split(" ")
+        # Iterating through token scopes against scopes defined in user instance.
+        for scope in token_data.scopes:
+            if scope not in user_scopes:
+                raise permissions_exception
+    except HTTPException as e:
+        raise e
+
+    # Iterating through dependent's scopes against scopes defined in token.
     for scope in security_scopes.scopes:
         if scope not in token_data.scopes:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Not enough permissions",
-                headers={"WWW-Authenticate": authenticate_value},
-            )
+            raise permissions_exception
     return token_data
 
 
@@ -80,16 +106,8 @@ async def get_current_user(
     Returns:
         A User instance representing the current user.
     """
-    with Session(engine) as session:
-        try:
-            user = session.exec(
-                select(User).where(User.username == token_data.username)
-            ).one()
-            return user
-        except AttributeError:
-            raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="No current user"
-            )
+    assert token_data.username is not None
+    return await get_user(token_data.username)
 
 
 async def get_current_active_user(
@@ -101,11 +119,7 @@ async def get_current_active_user(
     Returns:
         A User instance representing the current active user.
     """
-    if current_user is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="User not authenticated"
-        )
-    elif current_user.banned:
+    if current_user.banned:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Banned user"
         )
@@ -113,7 +127,8 @@ async def get_current_active_user(
 
 
 async def create_new_user(
-    token_data: Annotated[TokenData, Depends(validate_token)], user: UserCreate
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["user.create"])],
+    user: UserCreate,
 ) -> User:
     """Create new user.
     Args:
