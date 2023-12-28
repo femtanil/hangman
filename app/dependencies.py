@@ -183,6 +183,26 @@ async def get_user(
     return await get_user_by_id(user_id)
 
 
+async def remove_user_by_id(user_id: int) -> User:
+    with Session(engine) as session:
+        try:
+            user = session.exec(select(User).where(User.id == user_id)).one()
+            session.delete(user)
+            session.commit()
+            return user
+        except AttributeError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+            )
+
+
+async def remove_user(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    user_id: int,
+) -> User:
+    return await remove_user_by_id(user_id)
+
+
 async def get_own_player(
     token_data: Annotated[
         TokenData, Security(validate_token, scopes=["user:own:player"])
@@ -223,3 +243,23 @@ async def create_new_player(
         session.commit()
         session.refresh(db_player)
     return db_player
+
+
+async def remove_player_by_id(player_id: int) -> Player:
+    with Session(engine) as session:
+        try:
+            player = session.exec(select(Player).where(Player.id == player_id)).one()
+            session.delete(player)
+            session.commit()
+            return player
+        except AttributeError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
+            )
+
+
+async def remove_player(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    player_id: int,
+) -> Player:
+    return await remove_player_by_id(player_id)

@@ -5,9 +5,14 @@ from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.dependencies import get_user, get_users, get_own_user, create_new_user
+from app.dependencies import (
+    get_user,
+    get_users,
+    get_own_user,
+    create_new_user,
+    remove_user,
+)
 from app.models import User, UserRead
-from app.database import get_session
 
 load_dotenv()
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
@@ -38,3 +43,8 @@ async def read_users(
 @router.get("/me", response_model=UserRead)
 async def read_own_user(current_user: Annotated[User, Depends(get_own_user)]):
     return current_user
+
+
+@router.delete("/id={user_id}", response_model=UserRead)
+async def delete_user(user: User = Depends(remove_user)):
+    return user

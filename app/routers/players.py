@@ -5,7 +5,7 @@ from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.dependencies import get_own_player, create_new_player
+from app.dependencies import get_own_player, create_new_player, remove_player
 from app.models import Player, PlayerRead
 from app.database import get_session
 
@@ -44,3 +44,8 @@ async def read_players(
 @router.get("/me", response_model=PlayerRead)
 async def read_own_player(current_player: Annotated[Player, Depends(get_own_player)]):
     return current_player
+
+
+@router.delete("/id={player_id}", response_model=PlayerRead)
+async def delete_player(player: Annotated[Player, Depends(remove_player)]):
+    return player
