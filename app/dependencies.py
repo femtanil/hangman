@@ -38,7 +38,7 @@ async def get_user_by_username(username: str) -> User:
         try:
             user = session.exec(select(User).where(User.username == username)).one()
             return user
-        except AttributeError:
+        except NoResultFound:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
             )
@@ -170,7 +170,7 @@ async def get_user_by_id(user_id: int) -> User:
         try:
             user = session.exec(select(User).where(User.id == user_id)).one()
             return user
-        except AttributeError:
+        except NoResultFound:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
             )
@@ -265,7 +265,7 @@ async def get_player_by_id(player_id: int) -> Player:
         try:
             player = session.exec(select(Player).where(Player.id == player_id)).one()
             return player
-        except AttributeError:
+        except NoResultFound:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
             )
@@ -285,7 +285,7 @@ async def remove_player_by_id(player_id: int) -> Player:
             session.delete(player)
             session.commit()
             return player
-        except AttributeError:
+        except NoResultFound:
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
             )
