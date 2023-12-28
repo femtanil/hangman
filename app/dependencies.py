@@ -33,7 +33,7 @@ oauth2_scheme = OAuth2PasswordBearer(
 )
 
 
-async def get_user(username: str) -> User:
+async def get_user_by_username(username: str) -> User:
     with Session(engine) as session:
         try:
             user = session.exec(select(User).where(User.username == username)).one()
@@ -82,7 +82,7 @@ async def validate_token(
 
     try:
         assert token_data.username is not None
-        user = await get_user(token_data.username)
+        user = await get_user_by_username(token_data.username)
         user_scopes: list[str] = user.roles.split(" ")
         # Iterating through token scopes against scopes defined in user instance.
         for scope in token_data.scopes:
@@ -109,7 +109,7 @@ async def get_own_user(
         A User instance representing own user.
     """
     assert token_data.username is not None
-    user: User = await get_user(token_data.username)
+    user: User = await get_user_by_username(token_data.username)
 
     if user.banned:
         raise HTTPException(
