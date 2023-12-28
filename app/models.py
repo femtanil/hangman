@@ -22,7 +22,10 @@ class UserBase(SQLModel):
 class User(UserBase, table=True):
     id: int | None = Field(default=None, primary_key=True)
     hashed_password: str
-    roles: str = Field(default="user.create user:own.write user:player user:own:player.write user:others:player:points")
+    banned: bool = False
+    roles: str = Field(
+        default="user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername"
+    )
 
 
 class UserCreate(UserBase):
@@ -38,7 +41,6 @@ class PlayerBase(SQLModel):
     points: int = 0
     games_played: int = 0
     games_won: int = 0
-    banned: bool = False
 
 
 class Player(PlayerBase, table=True):

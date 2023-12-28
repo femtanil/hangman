@@ -42,5 +42,5 @@ async def read_players(
 
 
 @router.get("/me", response_model=PlayerRead)
-async def read_players_me(current_player: Annotated[Player, Depends(get_own_player)]):
+async def read_own_player(current_player: Annotated[Player, Depends(get_own_player)]):
     return current_player

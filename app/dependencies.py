@@ -26,6 +26,7 @@ oauth2_scheme = OAuth2PasswordBearer(
         "user:own:player": "Read only access to the current user's player.",
         "user:own:player.write": "The ability to change the current user's player.",
         "user:others:player:points": "Read only access to players' points.",
+        "user:others:player:playername": "Read only access to players' playernames.",
         "admin": "Full access to all information.",
     },
     auto_error=True,
@@ -86,6 +87,7 @@ async def validate_token(
         # Iterating through token scopes against scopes defined in user instance.
         for scope in token_data.scopes:
             if scope not in user_scopes:
+                print(f"scope {scope} not in {user_scopes}")
                 raise permissions_exception
     except HTTPException as e:
         raise e
@@ -97,33 +99,23 @@ async def validate_token(
     return token_data
 
 
-async def get_current_user(
+async def get_own_user(
     token_data: Annotated[TokenData, Security(validate_token, scopes=["user:own"])]
 ) -> User:
-    """Get current user.
+    """Get own user.
     Args:
         token_data: Token data.
     Returns:
-        A User instance representing the current user.
+        A User instance representing own user.
     """
     assert token_data.username is not None
-    return await get_user(token_data.username)
+    user: User = await get_user(token_data.username)
 
-
-async def get_current_active_user(
-    current_user: Annotated[User, Depends(get_current_user)]
-) -> User:
-    """Get current active user.
-    Args:
-        current_user: Current user.
-    Returns:
-        A User instance representing the current active user.
-    """
-    if current_user.banned:
+    if user.banned:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Banned user"
         )
-    return current_user
+    return user
 
 
 async def create_new_user(
