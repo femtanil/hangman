@@ -11,6 +11,7 @@ from app.dependencies import (
     get_own_user,
     create_new_user,
     remove_user,
+    remove_own_user,
 )
 from app.models import User, UserRead
 
@@ -47,4 +48,9 @@ async def read_own_user(current_user: Annotated[User, Depends(get_own_user)]):
 
 @router.delete("/id={user_id}", response_model=UserRead)
 async def delete_user(user: User = Depends(remove_user)):
+    return user
+
+
+@router.delete("/me", response_model=UserRead)
+async def delete_own_user(user: User = Depends(remove_own_user)):
     return user

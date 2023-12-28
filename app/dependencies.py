@@ -203,6 +203,11 @@ async def remove_user(
     return await remove_user_by_id(user_id)
 
 
+async def remove_own_user(user: Annotated[User, Depends(get_own_user)]) -> User:
+    assert user.id is not None
+    return await remove_user_by_id(user.id)
+
+
 async def get_own_player(
     token_data: Annotated[
         TokenData, Security(validate_token, scopes=["user:own:player"])
@@ -263,3 +268,8 @@ async def remove_player(
     player_id: int,
 ) -> Player:
     return await remove_player_by_id(player_id)
+
+
+async def remove_own_player(user: Annotated[User, Depends(get_own_user)]) -> Player:
+    assert user.player_id is not None
+    return await remove_player_by_id(user.player_id)
