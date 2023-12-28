@@ -250,6 +250,34 @@ async def create_new_player(
     return db_player
 
 
+async def get_players(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    offset: int = 0,
+    limit: int = Query(default=100, le=100),
+):
+    with Session(engine) as session:
+        players = session.exec(select(Player).offset(offset).limit(limit)).all()
+        return players
+
+
+async def get_player_by_id(player_id: int) -> Player:
+    with Session(engine) as session:
+        try:
+            player = session.exec(select(Player).where(Player.id == player_id)).one()
+            return player
+        except AttributeError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
+            )
+
+
+async def get_player(
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["admin"])],
+    player_id: int,
+) -> Player:
+    return await get_player_by_id(player_id)
+
+
 async def remove_player_by_id(player_id: int) -> Player:
     with Session(engine) as session:
         try:
