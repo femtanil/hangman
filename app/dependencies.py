@@ -163,35 +163,28 @@ async def create_new_user(
     return db_user
 
 
-async def get_current_player(token_data: Annotated[TokenData, Depends(validate_token)]):
+async def get_own_player(
+    token_data: Annotated[
+        TokenData, Security(validate_token, scopes=["user:own:player"])
+    ]
+) -> Player:
     with Session(engine) as session:
         try:
             player = session.exec(
                 select(Player).where(Player.username == token_data.username)
             ).one()
             return player
-        except AttributeError:
+        except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="No current player"
+                status_code=status.HTTP_400_BAD_REQUEST, detail="User has no player"
             )
 
 
-async def get_current_active_player(
-    current_player: Annotated[Player, Depends(get_current_player)]
-):
-    if current_player is None:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Player not authenticated"
-        )
-    elif current_player.banned:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST, detail="Banned player"
-        )
-    return current_player
-
-
 async def create_new_player(
-    token_data: Annotated[TokenData, Depends(validate_token)], player: PlayerCreate
+    token_data: Annotated[
+        TokenData, Security(validate_token, scopes=["user:own.write"])
+    ],
+    player: PlayerCreate,
 ):
     if token_data.username != player.username:
         raise HTTPException(

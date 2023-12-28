@@ -5,7 +5,7 @@ from fastapi import Depends, APIRouter, Query, HTTPException
 from sqlmodel import Session, select
 from dotenv import load_dotenv
 
-from app.dependencies import get_current_active_player, create_new_player
+from app.dependencies import get_own_player, create_new_player
 from app.models import Player, PlayerRead
 from app.database import get_session
 
@@ -42,7 +42,5 @@ async def read_players(
 
 
 @router.get("/me", response_model=PlayerRead)
-async def read_players_me(
-    current_player: Annotated[Player, Depends(get_current_active_player)]
-):
+async def read_players_me(current_player: Annotated[Player, Depends(get_own_player)]):
     return current_player
