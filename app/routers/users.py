@@ -1,9 +1,6 @@
-import os
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, Query, HTTPException
-from sqlmodel import Session, select
-from dotenv import load_dotenv
+from fastapi import Depends, APIRouter
 
 from app.dependencies import (
     get_user,
@@ -14,9 +11,6 @@ from app.dependencies import (
     remove_own_user,
 )
 from app.models import User, UserRead
-
-load_dotenv()
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
 
 router = APIRouter(
     prefix="/users",

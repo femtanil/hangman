@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, APIRouter, Query, HTTPException
+from fastapi import Depends, APIRouter
 
 from app.models import Game
 from app.dependencies import oauth2_scheme
