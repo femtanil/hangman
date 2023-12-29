@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-export const usePlayerStore = defineStore('player', () => {
+export const useUserStore = defineStore('user', () => {
     const tokenData = ref(null);
-    const player = ref(null);
 
     return {
         tokenData,
-        player,
     }
 })

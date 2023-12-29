@@ -11,8 +11,8 @@
                 <input type="password" id="password" name="password" v-model="password" class="text-3xl xs:text-4xl" />
                 <div v-if="props.confirmPassword">
                     <label for="passwordConfirmation" class="text-3xl xs:text-4xl">Confirm password</label>
-                    <input type="password" id="passwordConfirmation" name="passwordConfirmation" v-model="passwordConfirmation"
-                        class="text-3xl xs:text-4xl" />
+                    <input type="password" id="passwordConfirmation" name="passwordConfirmation"
+                        v-model="passwordConfirmation" class="text-3xl xs:text-4xl" />
                 </div>
                 <!-- Very unsafe, but it's just a demo -->
                 <input type="submit" value="Login"
@@ -26,11 +26,11 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useGameStore } from '@/stores/game.js';
-import { usePlayerStore } from '@/stores/player.js';
+import { useUserStore } from '@/stores/user.js';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
 const gameStore = useGameStore();
-const playerStore = usePlayerStore();
+const userStore = useUserStore();
 const username = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
@@ -41,35 +41,17 @@ const props = defineProps({
     }
 })
 
-async function createNewPlayer(username, password) {
-    try {
-        playerStore.playerData
-    }
-    catch (error) {
-        console.log(error);
-    }
-}
-
 async function submitForm() {
     const loginFormData = new FormData();
     loginFormData.append('username', username.value);
     loginFormData.append('password', password.value);
 
-    if (gameStore.newGame == true) {
+    if (gameStore.loginChoice) {
         try {
-            playerStore.tokenData = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/signup/`,
-                loginFormData);
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
-    else if (gameStore.loadGame == true) {
-        try {
-            playerStore.tokenData = await axios.post(
+            const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/login/`,
                 loginFormData);
+            userStore.tokenData = response.data;
         }
         catch (error) {
             console.log(error);
