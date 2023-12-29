@@ -5,7 +5,7 @@
         </h3>
         <form @submit.prevent="submitForm" method="post">
             <div class="grid grid-flow-row">
-                <label for="username" class="text-3xl xs:text-4xl">Player name</label>
+                <label for="username" class="text-3xl xs:text-4xl">Username</label>
                 <input type="text" id="username" name="username" v-model="username" class="text-3xl xs:text-4xl" />
                 <label for="password" class="text-3xl xs:text-4xl">Password</label>
                 <input type="password" id="password" name="password" v-model="password" class="text-3xl xs:text-4xl" />
@@ -15,7 +15,7 @@
                         class="text-3xl xs:text-4xl" />
                 </div>
                 <!-- Very unsafe, but it's just a demo -->
-                <input type="submit" value="Start"
+                <input type="submit" value="Login"
                     class=" btn btn-ghost rounded-none text-3xl xs:text-4xl active:bg-transparent w-full" />
                 <SelectScreenButton />
             </div>

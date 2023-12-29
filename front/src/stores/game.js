@@ -2,41 +2,42 @@ import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
 export const useGameStore = defineStore('game', () => {
-    const newGame = ref(false);
-    const loadGame = ref(false);
-    const gameStarted = ref(false);
+    const playChoice = ref(false);
+    const loginChoice = ref(false);
+    const settingsChoice = ref(false);
 
-    function setNewGame(value) {
-        newGame.value = value;
-        loadGame.value = !value;
+    function setPlayChoice(value) {
+        playChoice.value = value;
+        loginChoice.value = !value;
+        settingsChoice.value = !value;
     }
 
-    function setLoadGame(value) {
-        loadGame.value = value;
-        newGame.value = !value;
+    function setLoginChoice(value) {
+        playChoice.value = !value;
+        loginChoice.value = value;
+        settingsChoice.value = !value;
     }
 
-    function setGameStarted(value) {
-        gameStarted.value = value;
+    function setSettingsChoice(value) {
+        playChoice.value = !value;
+        loginChoice.value = !value;
+        settingsChoice.value = value;
     }
 
-    function resetNewGame() {
-        newGame.value = false;
-    }
-
-    function resetLoadGame() {
-        loadGame.value = false;
+    function resetEverything() {
+        playChoice.value = false;
+        loginChoice.value = false;
+        settingsChoice.value = false;
     }
 
     return {
-        newGame,
-        loadGame,
-        gameStarted,
-        setNewGame,
-        setLoadGame,
-        setGameStarted,
-        resetNewGame,
-        resetLoadGame,
+        playChoice,
+        loginChoice,
+        settingsChoice,
+        setPlayChoice,
+        setLoginChoice,
+        setSettingsChoice,
+        resetEverything,
     }
 })
 
