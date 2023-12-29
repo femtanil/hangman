@@ -17,8 +17,21 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         }
     }
 
+    async function registerUser(formData) {
+        try {
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/register/`,
+                formData);
+            tokenData.value = response.data;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return {
         tokenData,
         loginUser,
+        registerUser,
     }
 })
