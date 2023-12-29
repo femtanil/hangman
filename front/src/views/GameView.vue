@@ -12,20 +12,25 @@
         {{ playerFormTitle }}
     </PlayerForm>
     -->
-    <component :is="visibleComponent"></component>
+    <component :is="visibleComponent" v-bind="currentProps">{{ currentSlot }}</component>
 </template>
 
 <script setup>
 import { useGameStore } from '@/stores/game.js';
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import background from '@/assets/background.jpg';
 import SelectMenu from '@/components/GameSelectMenu.vue';
 import AuthForm from '@/components/GameAuthenticationForm.vue';
 
 const gameStore = useGameStore();
+const currentSlotName = ref('');
+const currentSlot = ref('');
+const currentProps = ref({});
 
 const visibleComponent = computed(() => {
     if (gameStore.loginChoice) {
+        currentSlot.value = 'Login';
+        currentProps.value = { confirmPassword: false };
         return AuthForm;
     }
     else {
