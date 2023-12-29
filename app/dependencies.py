@@ -40,7 +40,7 @@ async def get_user_by_username(username: str) -> User:
             return user
         except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User does not exist"
             )
 
 
@@ -140,7 +140,7 @@ async def create_new_user(
             # Should not be possible, but better be bulletproof.
             session.exec(select(User).where(User.username == user.username)).one()
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="User with this username already exists",
             )
         except NoResultFound:
@@ -172,7 +172,7 @@ async def get_user_by_id(user_id: int) -> User:
             return user
         except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User does not exist"
             )
 
 
@@ -192,7 +192,7 @@ async def remove_user_by_id(user_id: int) -> User:
             return user
         except AttributeError:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="User does not exist"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User does not exist"
             )
 
 
@@ -221,7 +221,7 @@ async def get_own_player(
             return player
         except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="User has no player"
+                status_code=status.HTTP_404_NOT_FOUND, detail="User has no player"
             )
 
 
@@ -236,7 +236,7 @@ async def create_new_player(
             # Should not be possible, but better be bulletproof.
             session.exec(select(Player).where(Player.username == player.username)).one()
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="Player with this username already exists",
             )
         except NoResultFound:
@@ -267,7 +267,7 @@ async def get_player_by_id(player_id: int) -> Player:
             return player
         except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
+                status_code=status.HTTP_404_NOT_FOUND, detail="Player does not exist"
             )
 
 
@@ -287,7 +287,7 @@ async def remove_player_by_id(player_id: int) -> Player:
             return player
         except NoResultFound:
             raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST, detail="Player does not exist"
+                status_code=status.HTTP_404_NOT_FOUND, detail="Player does not exist"
             )
 
 
