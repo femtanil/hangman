@@ -1,5 +1,5 @@
 <template>
-    <AppButton @click="gameStore.resetEverything()">{{ 'Select Screen' }}</AppButton>
+    <AppButton @click="gameStore.resetChoices()">{{ 'Select Screen' }}</AppButton>
 </template>
 <script setup>
 import AppButton from '@/components/AppButton.vue';

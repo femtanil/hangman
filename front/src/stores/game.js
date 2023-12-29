@@ -5,6 +5,7 @@ export const useGameStore = defineStore('game', () => {
     const playChoice = ref(false);
     const loginChoice = ref(false);
     const settingsChoice = ref(false);
+    const playerId = ref(null);
 
     function setPlayChoice(value) {
         playChoice.value = value;
@@ -24,7 +25,11 @@ export const useGameStore = defineStore('game', () => {
         settingsChoice.value = value;
     }
 
-    function resetEverything() {
+    function setPlayerId(id) {
+        playerId.value = id;
+    }
+
+    function resetChoices() {
         playChoice.value = false;
         loginChoice.value = false;
         settingsChoice.value = false;
@@ -37,7 +42,8 @@ export const useGameStore = defineStore('game', () => {
         setPlayChoice,
         setLoginChoice,
         setSettingsChoice,
-        resetEverything,
+        resetChoices,
+        setPlayerId,
     }
 })
 
