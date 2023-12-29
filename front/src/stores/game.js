@@ -1,11 +1,12 @@
-import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import axios from 'axios';
 
 export const useGameStore = defineStore('game', () => {
     const playChoice = ref(false);
     const loginChoice = ref(false);
     const settingsChoice = ref(false);
-    const playerId = ref(null);
+    const player = ref(null);
 
     function setPlayChoice(value) {
         playChoice.value = value;
@@ -25,14 +26,23 @@ export const useGameStore = defineStore('game', () => {
         settingsChoice.value = value;
     }
 
-    function setPlayerId(id) {
-        playerId.value = id;
-    }
-
     function resetChoices() {
         playChoice.value = false;
         loginChoice.value = false;
         settingsChoice.value = false;
+    }
+
+    async function createPlayer(playername) {
+        try {
+            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/players/`,
+                {
+                    "playername": playername,
+                });
+            player.value = response.data;
+        }
+        catch (error) {
+            console.error(error);
+        }
     }
 
     return {
@@ -43,7 +53,7 @@ export const useGameStore = defineStore('game', () => {
         setLoginChoice,
         setSettingsChoice,
         resetChoices,
-        setPlayerId,
+        createPlayer,
     }
 })
 
