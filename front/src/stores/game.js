@@ -45,6 +45,21 @@ export const useGameStore = defineStore('game', () => {
         }
     }
 
+    async function getOwnPlayer() {
+        try {
+            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/players/me`);
+            player.value = response.data;
+        }
+        catch (error) {
+            if (error.response.status === 404) {
+                throw error;
+            }
+            else {
+                console.log(error);
+            }
+        }
+    }
+
     return {
         playChoice,
         loginChoice,
@@ -54,6 +69,7 @@ export const useGameStore = defineStore('game', () => {
         setSettingsChoice,
         resetChoices,
         createPlayer,
+        getOwnPlayer,
     }
 })
 
