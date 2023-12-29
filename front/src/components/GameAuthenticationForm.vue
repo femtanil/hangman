@@ -24,13 +24,10 @@
 </template>
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
-import { useGameStore } from '@/stores/game.js';
-import { useUserStore } from '@/stores/user.js';
+import { useAuthenticationStore } from '@/stores/authentication.js';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
-const gameStore = useGameStore();
-const userStore = useUserStore();
+const authenticationStore = useAuthenticationStore();
 const username = ref('')
 const password = ref('')
 const passwordConfirmation = ref('')
@@ -42,21 +39,10 @@ const props = defineProps({
 })
 
 async function submitForm() {
-    const loginFormData = new FormData();
-    loginFormData.append('username', username.value);
-    loginFormData.append('password', password.value);
-
-    if (gameStore.loginChoice) {
-        try {
-            const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/login/`,
-                loginFormData);
-            userStore.tokenData = response.data;
-        }
-        catch (error) {
-            console.log(error);
-        }
-    }
+    const formData = new FormData();
+    formData.append('username', username.value);
+    formData.append('password', password.value);
+    authenticationStore.loginUser(formData);
 }
 
 </script>
