@@ -1,13 +1,13 @@
 <template>
-    <menu class="absolute left-1/2 -translate-x-1/2 top-2/3 -translate-2/3">
+    <menu class="">
         <div class="grid grid-flow-row">
-            <li>
+            <li class="flex justify-center">
                 <AppButton @click="gameStore.setPlayChoice(true)">{{ 'Play' }}</AppButton>
             </li>
-            <li>
+            <li class="flex justify-center">
                 <AppButton @click="gameStore.setLoginChoice(true)">{{ 'Login' }}</AppButton>
             </li>
-            <li>
+            <li class="flex justify-center">
                 <AppButton @click="gameStore.setSettingsChoice(true)">{{ 'Settings' }}</AppButton>
             </li>
         </div>

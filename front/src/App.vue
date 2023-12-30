@@ -1,11 +1,15 @@
 <template>
     <div id="page" class="h-screen">
         <Menu />
-        <main>
-            <div class="relative">
-                <img :src="background" alt="Montreuil, Japan" class="object-cover h-screen w-screen">
+        <main class="">
+            <div class="flex flex-row flex-nowrap">
+                <div class="box-border w-full flex-none">
+                    <img :src="background" alt="Montreuil, Japan" class="object-cover h-screen w-screen">
+                </div>
+                <div class="box-border w-full flex-none ml-[-100%]">
+                    <router-view></router-view>
+                </div>
             </div>
-            <router-view></router-view>
         </main>
         <Footer />
     </div>
