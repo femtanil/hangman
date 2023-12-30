@@ -38,6 +38,7 @@ class UserRead(UserBase):
 
 class PlayerBase(SQLModel):
     playername: str = Field(index=True, unique=True)
+    username: str = Field(index=True, default=None, foreign_key="user.username")
     points: int = 0
     games_played: int = 0
     games_won: int = 0
@@ -69,6 +70,7 @@ class Game(SQLModel):
 def create_fake_player():
     player: Player = Player(
         playername="a-player-name",
+        username="unauthenticated",
         points=1337,
         games_played=1,
         games_won=1,
