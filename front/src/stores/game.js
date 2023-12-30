@@ -4,6 +4,7 @@ import { ref, watch } from 'vue';
 import axios from 'axios';
 
 export const useGameStore = defineStore('game', () => {
+    const gameStarted = ref(false); // The game has started.
     const playChoice = ref(false); // The user has chosen to play.
     const loginChoice = ref(false); // The user has chosen to login.
     const settingsChoice = ref(false); // The user has chosen to go to settings.
@@ -81,7 +82,7 @@ export const useGameStore = defineStore('game', () => {
         setSettingsChoice,
         resetChoices,
         createPlayer,
-        getOwnPlayer,
+        gameStarted,
     }
 })
 

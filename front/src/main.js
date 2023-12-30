@@ -4,13 +4,13 @@ import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
 
-import GameMenuView from '@/views/GameMenuView.vue'
+import GameView from '@/views/GameView.vue'
 
 const pinia = createPinia()
 const router = createRouter({
     history: createWebHistory(),
     routes: [
-        { path: '', component: GameMenuView },
+        { path: '', component: GameView },
     ]
 })
 
