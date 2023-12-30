@@ -1,41 +1,23 @@
 <template>
-    <!--
-    <div :style="`background-image:url(${background});`" class="h-screen w-screen"></div>
-    -->
-    <div class="relative">
-        <img :src="background" alt="Montreuil, Japan" class="object-cover h-screen w-screen">
-        <h1 class="absolute left-1/2 -translate-x-1/2 top-1/4 -translate-y-1/4 text-7xl sm:text-9xl">hangman</h1>
-    </div>
-    <SelectMenu v-if="showSelectMenu"></SelectMenu>
-    <PlayerForm v-if="!showSelectMenu" :confirmPassword=gameStore.newGame v-slot:formTitle>
-        {{ playerFormTitle }}
-    </PlayerForm>
+    <component :is="visibleComponent" v-bind="currentProps"></component>
 </template>
-
 <script setup>
 import { useGameStore } from '@/stores/game.js';
-import { computed } from 'vue';
-import background from '@/assets/background.jpg';
-import SelectMenu from '@/components/GameSelectMenu.vue';
-import PlayerForm from '@/components/GamePlayerForm.vue';
+import { useAuthenticationStore } from '@/stores/authentication.js';
+import { ref, computed } from 'vue';
+import SelectScreen from '@/views/GameSelectScreenView.vue';
+import MainView from '@/views/GameMainView.vue';
 
 const gameStore = useGameStore();
+const authStore = useAuthenticationStore();
+const currentProps = ref({});
 
-const showSelectMenu = computed(() => {
-    if (gameStore.newGame == true || gameStore.loadGame == true) {
-        return false;
+const visibleComponent = computed(() => {
+    if (gameStore.playChoice) {
+        return MainView;
     }
     else {
-        return true;
-    }
-})
-
-const playerFormTitle = computed(() => {
-    if (gameStore.newGame == true) {
-        return 'Create player';
-    }
-    else if (gameStore.loadGame == true) {
-        return 'Load player';
+        return SelectScreen;
     }
 })
 </script>
