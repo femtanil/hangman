@@ -23,7 +23,6 @@ import SelectMenu from '@/components/GameSelectMenu.vue';
 import AuthForm from '@/components/GameAuthenticationForm.vue';
 
 const gameStore = useGameStore();
-const currentSlotName = ref('');
 const currentSlot = ref('');
 const currentProps = ref({});
 

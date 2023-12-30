@@ -12,21 +12,13 @@
     </div>
 </template>
 <script setup>
-import axios from 'axios';
-import { useGameStore } from '@/stores/game';
+import { useGameStore } from '@/stores/game.js';
 import { ref } from 'vue';
 
+const gameStore = useGameStore();
 const playername = ref('');
 
 async function submitForm() {
-    try {
-        const response = await axios.post(
-            `${import.meta.env.VITE_BACKEND_URL}/players`,
-            { playername: playername.value }
-        );
-        console.log(response);
-    }
-    catch (error) {
-        console.log(error);
-    }
+    gameStore.createPlayer(playername.value);
+}
 </script>
