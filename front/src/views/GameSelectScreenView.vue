@@ -18,22 +18,38 @@
 
 <script setup>
 import { useGameStore } from '@/stores/game.js';
+import { useAuthenticationStore } from '@/stores/authentication.js'
 import { ref, computed } from 'vue';
 import SelectMenu from '@/components/GameSelectMenu.vue';
 import AuthForm from '@/components/GameAuthenticationForm.vue';
+import PlayerCreation from '@/components/GamePlayerCreationForm.vue';
 
 const gameStore = useGameStore();
+const authStore = useAuthenticationStore();
 const currentSlot = ref('');
 const currentProps = ref({});
 
 const visibleComponent = computed(() => {
-    if (gameStore.loginChoice) {
+    // User chose to log in but isn't authenticated.
+    if (gameStore.loginChoice && authStore.tokenData === null) {
         currentSlot.value = 'Login';
         currentProps.value = { confirmPassword: false };
         return AuthForm;
+    }
+    // User chose to log in and is authenticated.
+    else if (gameStore.loginChoice && authStore.tokenData !== null) {
+        try {
+            gameStore.getOwnPlayer();
+        }
+        catch (error) {
+            currentSlot.value = '';
+            currentProps.value = {};
+            return PlayerCreation;
+        }
     }
     else {
         return SelectMenu;
     }
 })
+
 </script>

@@ -48,7 +48,6 @@ export const useGameStore = defineStore('game', () => {
         }
     }
 
-    // This function is called when the user logs in.
     async function getOwnPlayer() {
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/players/me`);
@@ -60,18 +59,10 @@ export const useGameStore = defineStore('game', () => {
             }
             else {
                 console.log(error);
+                resetChoices();
             }
         }
     }
-
-    watch(authenticationStore.tokenData, async (tokenData) => {
-        if (tokenData) {
-            await getOwnPlayer();
-        }
-        else {
-            player.value = null;
-        }
-    });
 
     return {
         playChoice,
@@ -83,6 +74,8 @@ export const useGameStore = defineStore('game', () => {
         resetChoices,
         createPlayer,
         gameStarted,
+        player,
+        getOwnPlayer,
     }
 })
 

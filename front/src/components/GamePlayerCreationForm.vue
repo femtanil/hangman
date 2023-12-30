@@ -10,12 +10,18 @@
                     <input type="text" id="playername" name="username" v-model="playername" class="text-3xl xs:text-4xl" />
                 </div>
             </div>
+            <div class="flex justify-center">
+                <div class="grid grid-flow-row">
+                    <SelectScreenButton />
+                </div>
+            </div>
         </form>
     </div>
 </template>
 <script setup>
 import { useGameStore } from '@/stores/game.js';
 import { ref } from 'vue';
+import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
 const gameStore = useGameStore();
 const playername = ref('');

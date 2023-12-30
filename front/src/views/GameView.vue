@@ -3,7 +3,7 @@
 </template>
 <script setup>
 import { useGameStore } from '@/stores/game.js';
-import { useAuthenticationStore } from '@/stores/authentication.js';
+import { useAuthenticationStore } from '@/stores/authentication.js'
 import { ref, computed } from 'vue';
 import SelectScreen from '@/views/GameSelectScreenView.vue';
 import MainView from '@/views/GameMainView.vue';
@@ -16,8 +16,12 @@ const visibleComponent = computed(() => {
     if (gameStore.playChoice) {
         return MainView;
     }
+    else if (authStore.tokenData !== null && gameStore.player !== null) {
+        return MainView;
+    }
     else {
         return SelectScreen;
     }
 })
+
 </script>
