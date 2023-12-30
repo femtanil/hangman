@@ -3,8 +3,9 @@ import { ref } from 'vue';
 import axios from 'axios';
 
 export const useAuthenticationStore = defineStore('authentication', () => {
-    const tokenData = ref(null);
+    const tokenData = ref(null); // The token data of the logged in user.
 
+    // This function is called when the user logs in.
     async function loginUser(formData) {
         try {
             const response = await axios.post(
@@ -17,6 +18,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         }
     }
 
+    // This function is called when the user registers.
     async function registerUser(formData) {
         try {
             const response = await axios.post(

@@ -1,12 +1,14 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { useAuthenticationStore } from '@/stores/authentication.js';
+import { ref, watch } from 'vue';
 import axios from 'axios';
 
 export const useGameStore = defineStore('game', () => {
-    const playChoice = ref(false);
-    const loginChoice = ref(false);
-    const settingsChoice = ref(false);
-    const player = ref(null);
+    const playChoice = ref(false); // The user has chosen to play.
+    const loginChoice = ref(false); // The user has chosen to login.
+    const settingsChoice = ref(false); // The user has chosen to go to settings.
+    const player = ref(null); // The player object of the logged in user.
+    const authenticationStore = useAuthenticationStore();
 
     function setPlayChoice(value) {
         playChoice.value = value;
@@ -45,6 +47,7 @@ export const useGameStore = defineStore('game', () => {
         }
     }
 
+    // This function is called when the user logs in.
     async function getOwnPlayer() {
         try {
             const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/players/me`);
@@ -59,6 +62,15 @@ export const useGameStore = defineStore('game', () => {
             }
         }
     }
+
+    watch(authenticationStore.tokenData, async (tokenData) => {
+        if (tokenData) {
+            await getOwnPlayer();
+        }
+        else {
+            player.value = null;
+        }
+    });
 
     return {
         playChoice,
