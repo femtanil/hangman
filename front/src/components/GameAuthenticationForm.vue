@@ -8,21 +8,21 @@
                 <div class="grid grid-flow-row">
                     <label for="username" class="flex justify-text-3xl xs:text-4xl">Username</label>
                     <input type="text" id="username" name="username" v-model="username"
-                        class="text-3xl xs:text-4xl w-fit" />
+                        class="input input-bordered text-3xl xs:text-4xl w-fit" />
                 </div>
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
                     <label for="password" class="text-3xl xs:text-4xl">Password</label>
                     <input type="password" id="password" name="password" v-model="password"
-                        class="text-3xl xs:text-4xl w-fit" />
+                        class="input input-bordered text-3xl xs:text-4xl w-fit" />
                 </div>
             </div>
             <div v-if="props.confirmPassword" class="flex justify-center">
                 <div class="grid grid-flow-row">
                     <label for="passwordConfirmation" class="text-3xl xs:text-4xl">Confirm password</label>
                     <input type="password" id="passwordConfirmation" name="passwordConfirmation"
-                        v-model="passwordConfirmation" class="text-3xl xs:text-4xl w-fit" />
+                        v-model="passwordConfirmation" class="input input-bordered text-3xl xs:text-4xl w-fit" />
                 </div>
             </div>
             <!-- Very unsafe, but it's just a demo -->
