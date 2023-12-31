@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAuthenticationStore } from '@/stores/authentication.js';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 
 export const useGameStore = defineStore('game', () => {
@@ -40,7 +40,14 @@ export const useGameStore = defineStore('game', () => {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/players/`,
                 {
                     "playername": playername,
-                });
+                },
+                {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${authenticationStore.tokenData.access_token}`,
+                    }
+                }
+            );
             player.value = response.data;
         }
         catch (error) {
@@ -50,7 +57,15 @@ export const useGameStore = defineStore('game', () => {
 
     async function getOwnPlayer() {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/players/me`);
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/players/me`,
+                {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${authenticationStore.tokenData.access_token}`,
+                    }
+                }
+            );
             player.value = response.data;
         }
         catch (error) {

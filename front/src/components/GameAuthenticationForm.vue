@@ -60,6 +60,8 @@ async function submitForm() {
     const formData = new FormData();
     formData.append('username', username.value);
     formData.append('password', password.value);
+    formData.append('scope',
+        'user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername');
     authenticationStore.loginUser(formData);
 }
 

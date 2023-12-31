@@ -10,7 +10,13 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         try {
             const response = await axios.post(
                 `${import.meta.env.VITE_BACKEND_URL}/login/`,
-                formData);
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    }
+                },
+            );
             tokenData.value = response.data;
         }
         catch (error) {
