@@ -1,22 +1,31 @@
 <template>
-    <div id="page" class="h-screen">
-        <Menu />
-        <main class="">
-            <div class="flex flex-row flex-nowrap">
-                <div class="box-border w-full flex-none">
-                    <img :src="background" alt="Montreuil, Japan" class="object-cover h-screen w-screen">
-                </div>
-                <div class="box-border w-full flex-none ml-[-100%]">
-                    <router-view></router-view>
-                </div>
+    <NavBar />
+    <main>
+        <div class="flex flex-row flex-nowrap">
+            <div class="w-full flex-none">
+                <img v-bind="backgroundProperties">
             </div>
-        </main>
-        <Footer />
-    </div>
+            <div class="w-full flex-none ml-[-100%]">
+                <router-view></router-view>
+            </div>
+        </div>
+    </main>
+    <AppFooter />
 </template>
 
 <script setup>
-import Menu from '@/components/MenuBar.vue'
-import Footer from '@/components/Footer.vue'
+import NavBar from '@/components/AppNavBar.vue'
+import AppFooter from '@/components/AppFooter.vue'
 import background from '@/assets/background.jpg';
+import { computed } from 'vue';
+import { useElementPropertiesStore } from '@/stores/elementProperties.js';
+
+const elementPropertiesStore = useElementPropertiesStore();
+const backgroundProperties = computed(() => {
+    return {
+        src: background,
+        alt: 'Montreuil, Japan',
+        class: `object-cover h-[calc(100vh-${elementPropertiesStore.navbarHeight}px)] w-screen`
+    };
+});
 </script>

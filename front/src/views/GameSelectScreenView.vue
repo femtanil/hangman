@@ -1,12 +1,7 @@
 <template>
-    <!--
-    <div :style="`background-image:url(${background});`" class="h-screen w-screen"></div>
-    -->
-    <div class="grid grid-rows-4 h-full">
-        <div class="row-span-1 row-end-3 text-7xl sm:text-9xl">
-            <h1 class="flex justify-center">hangman</h1>
-        </div>
-        <component class="row-start-3 row-end-4" :is="visibleComponent" v-bind="currentProps">{{ currentSlot }}</component>
+    <div class="flex flex-col">
+        <h1 class="flex justify-center text-7xl pb-8">hangman</h1>
+        <component class="" :is="visibleComponent" v-bind="currentProps">{{ currentSlot }}</component>
     </div>
     <!--
     <SelectMenu v-if="showSelectMenu"></SelectMenu>

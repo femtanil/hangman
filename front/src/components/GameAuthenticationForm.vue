@@ -1,36 +1,25 @@
 <template>
-    <div class="grid grid-flow-row">
-        <h3 class="flex justify-center text-4xl xs:text-5xl pb-9">
+    <div class="flex flex-col">
+        <h3 class="flex justify-center text-2xl">
             <slot name="formTitle"></slot>
         </h3>
         <form @submit.prevent="submitForm" method="post">
-            <div class="flex justify-center">
-                <div class="grid grid-flow-row">
-                    <label for="username" class="flex justify-text-3xl xs:text-4xl">Username</label>
-                    <input type="text" id="username" name="username" v-model="username"
-                        class="input input-bordered text-3xl xs:text-4xl w-fit" />
-                </div>
+            <div class="flex flex-col px-5">
+                <label for="username" class="text-xl">Username</label>
+                <input type="text" id="username" name="username" v-model="username" class="input input-bordered text-xl" />
+            </div>
+            <div class="flex flex-col px-5">
+                <label for="password" class="text-xl">Password</label>
+                <input type="password" id="password" name="password" v-model="password"
+                    class="input input-bordered text-xl" />
+            </div>
+            <div v-if="props.confirmPassword" class="flex flex-col px-5">
+                <label for="passwordConfirmation" class="text-xl">Confirm password</label>
+                <input type="password" id="passwordConfirmation" name="passwordConfirmation" v-model="passwordConfirmation"
+                    class="input input-bordered text-xl" />
             </div>
             <div class="flex justify-center">
-                <div class="grid grid-flow-row">
-                    <label for="password" class="text-3xl xs:text-4xl">Password</label>
-                    <input type="password" id="password" name="password" v-model="password"
-                        class="input input-bordered text-3xl xs:text-4xl w-fit" />
-                </div>
-            </div>
-            <div v-if="props.confirmPassword" class="flex justify-center">
-                <div class="grid grid-flow-row">
-                    <label for="passwordConfirmation" class="text-3xl xs:text-4xl">Confirm password</label>
-                    <input type="password" id="passwordConfirmation" name="passwordConfirmation"
-                        v-model="passwordConfirmation" class="input input-bordered text-3xl xs:text-4xl w-fit" />
-                </div>
-            </div>
-            <!-- Very unsafe, but it's just a demo -->
-            <div class="flex justify-center">
-                <div class="grid grid-flow-row">
-                    <input type="submit" value="Login"
-                        class="btn btn-ghost rounded-none text-3xl xs:text-4xl active:bg-transparent w-fit" />
-                </div>
+                <input type="submit" value="Login" class="btn btn-ghost rounded-none text-3xl active:bg-transparent" />
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
