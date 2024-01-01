@@ -1,16 +1,16 @@
 <template>
-    <div class="stats shadow flex rounded-none">
-        <div class="stat">
-            <div class="stat-title text-sm">Guessed words</div>
-            <div class="stat-value text-secondary text-base">1</div>
+    <div class="stats shadow grid grid-cols-3 rounded-none">
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Guessed words</div>
+            <div class="stat-value text-secondary text-base self-center">1</div>
         </div>
-        <div class="stat">
-            <div class="stat-title text-sm">Word to guess</div>
-            <div class="stat-value text-primary text-base">someword</div>
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Word to guess</div>
+            <div class="stat-value text-primary text-base self-center">someword</div>
         </div>
-        <div class="stat">
-            <div class="stat-title text-sm">Highscore</div>
-            <div class="stat-value text-base">1337</div>
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Highscore</div>
+            <div class="stat-value text-base self-center">1337</div>
         </div>
     </div>
 </template>
