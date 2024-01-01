@@ -3,7 +3,7 @@
         <div
             class="collapse collapse-arrow bg-base-100 rounded-none lg:col-start-1 lg:col-end-4 outline outline-yellow-500">
             <input type="checkbox" />
-            <div class="collapse-title text-xl text-indigo-500 outline outline-indigo-500">
+            <div ref="firstSectionTitle" class="collapse-title text-xl text-indigo-500 outline outline-indigo-500">
                 first section title
             </div>
             <div class="collapse-content bg-base-200 text-rose-500 outline outline-rose-500">
@@ -26,24 +26,23 @@
 <script setup>
 import { useGameStore } from '@/stores/game.js';
 import { useAuthenticationStore } from '@/stores/authentication.js'
-import { useElementPropertiesStore } from '@/stores/elementProperties.js';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import SelectScreen from '@/views/GameSelectScreenView.vue';
 import MainView from '@/views/GameMainView.vue';
 
 const gameStore = useGameStore();
 const authStore = useAuthenticationStore();
-const elementPropertiesStore = useElementPropertiesStore();
+const firstSectionTitle = ref(null);
+
 const currentProperties = computed(() => {
     if (gameStore.playChoice) {
         return {
-            //class: `lg:col-start-4 lg:col-end-10 h-[calc(100vh-${elementPropertiesStore.statusbarHeight}px)]`
-            class: `lg:col-start-4 lg:col-end-10 h-full`
+            class: `lg:col-start-4 lg:col-end-10 flex flex-grow`
         };
     }
     else if (authStore.tokenData !== null && gameStore.player !== null) {
         return {
-            class: `lg:col-start-4 lg:col-end-10`
+            class: `lg:col-start-4 lg:col-end-10 flex flex-grow`
         };
     }
     else {
@@ -63,6 +62,6 @@ const visibleComponent = computed(() => {
         return SelectScreen;
     }
 
-})
+});
 
 </script>
