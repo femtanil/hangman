@@ -24,6 +24,28 @@ export const useAuthenticationStore = defineStore('authentication', () => {
         }
     }
 
+    async function logoutUser() {
+        try {
+            // No endpoint yet.
+            /*
+            await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/logout/`,
+                {},
+                {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${tokenData.value.access_token}`,
+                    }
+                }
+            );
+            */
+            tokenData.value = null;
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     // This function is called when the user registers.
     async function registerUser(formData) {
         try {
@@ -40,6 +62,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     return {
         tokenData,
         loginUser,
+        logoutUser,
         registerUser,
     }
 })
