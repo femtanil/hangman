@@ -8,7 +8,7 @@
 <script setup>
 import { useGameStore } from '@/stores/game.js';
 import { useAuthenticationStore } from '@/stores/authentication.js'
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import SelectScreen from '@/views/GameSelectScreenView.vue';
 import MainView from '@/views/GameMainView.vue';
 import ProfileInformation from '@/components/GameProfileInformation.vue';
@@ -16,7 +16,6 @@ import MiscInformation from '@/components/GameMiscInformation.vue';
 
 const gameStore = useGameStore();
 const authStore = useAuthenticationStore();
-const firstSectionTitle = ref(null);
 
 const currentProperties = computed(() => {
     if (gameStore.playChoice) {
@@ -39,8 +38,13 @@ const visibleComponent = computed(() => {
     if (gameStore.playChoice) {
         return MainView;
     }
+    /*
     else if (authStore.tokenData !== null && gameStore.player !== null) {
         return MainView;
+    }
+    */
+    else if (gameStore.loginChoice) {
+        return SelectScreen;
     }
     else {
         return SelectScreen;
