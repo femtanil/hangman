@@ -7,7 +7,12 @@
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
                     <label for="playername" class="text-3xl xs:text-4xl">Player name</label>
-                    <input type="text" id="playername" name="username" v-model="playername" class="text-3xl xs:text-4xl" />
+                    <input type="text" id="playername" name="username" v-model="playername" class="input input-bordered text-3xl xs:text-4xl" />
+                </div>
+            </div>
+            <div class="flex justify-center">
+                <div class="grid grid-flow-row">
+                    <SelectScreenButton />
                 </div>
             </div>
         </form>
@@ -16,6 +21,7 @@
 <script setup>
 import { useGameStore } from '@/stores/game.js';
 import { ref } from 'vue';
+import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
 const gameStore = useGameStore();
 const playername = ref('');

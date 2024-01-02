@@ -1,9 +1,18 @@
 <template>
-    <menu class="flex">
-        <div class="grid grid-flow-col">
-            <li>WordToGuess</li>
+    <div class="stats shadow grid grid-cols-3 rounded-none">
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Guessed words</div>
+            <div class="stat-value text-secondary text-base self-center">1</div>
         </div>
-    </menu>
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Word to guess</div>
+            <div class="stat-value text-primary text-base self-center">someword</div>
+        </div>
+        <div class="stat flex flex-col justify-evenly px-0 py-2">
+            <div class="stat-title text-sm self-center">Score</div>
+            <div class="stat-value text-base self-center">1337</div>
+        </div>
+    </div>
 </template>
 <script setup>
 </script>

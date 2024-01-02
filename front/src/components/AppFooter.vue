@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer footer-center p-10 bg-neutral text-primary-content sticky top-[100vh]">
+    <footer class="footer footer-center px-10 py-5 bg-neutral text-primary-content sticky top-[100vh]">
         <aside>
             <p class="font-bold">
                 femtanil <br />serving you the best apps (no)

@@ -5,7 +5,7 @@
                 <AppButton @click="gameStore.setPlayChoice(true)">{{ 'Play' }}</AppButton>
             </li>
             <li class="flex justify-center">
-                <AppButton @click="gameStore.setLoginChoice(true)">{{ 'Login' }}</AppButton>
+                <AppButton @click="logChoice">{{ logInOut }}</AppButton>
             </li>
             <li class="flex justify-center">
                 <AppButton @click="gameStore.setSettingsChoice(true)">{{ 'Settings' }}</AppButton>
@@ -17,6 +17,27 @@
 <script setup>
 import AppButton from '@/components/AppButton.vue';
 import { useGameStore } from '@/stores/game.js';
+import { useAuthenticationStore } from '@/stores/authentication.js';
+import { computed } from 'vue';
 
 const gameStore = useGameStore();
+const authStore = useAuthenticationStore();
+
+const logInOut = computed(() => {
+    if (authStore.tokenData === null) {
+        return 'Connect';
+    }
+    else {
+        return 'Disconnect';
+    }
+});
+
+const logChoice = function () {
+    if (authStore.tokenData === null) {
+        gameStore.setLoginChoice(true);
+    }
+    else {
+        authStore.logoutUser();
+    }
+};
 </script>

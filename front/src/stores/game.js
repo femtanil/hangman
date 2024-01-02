@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { useAuthenticationStore } from '@/stores/authentication.js';
-import { ref, watch } from 'vue';
+import { ref } from 'vue';
 import axios from 'axios';
 
 export const useGameStore = defineStore('game', () => {
@@ -40,7 +40,14 @@ export const useGameStore = defineStore('game', () => {
             const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/players/`,
                 {
                     "playername": playername,
-                });
+                },
+                {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${authenticationStore.tokenData.access_token}`,
+                    }
+                }
+            );
             player.value = response.data;
         }
         catch (error) {
@@ -48,10 +55,17 @@ export const useGameStore = defineStore('game', () => {
         }
     }
 
-    // This function is called when the user logs in.
     async function getOwnPlayer() {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/players/me`);
+            const response = await axios.get(
+                `${import.meta.env.VITE_BACKEND_URL}/players/me`,
+                {
+                    headers: {
+                        accept: 'application/json',
+                        Authorization: `Bearer ${authenticationStore.tokenData.access_token}`,
+                    }
+                }
+            );
             player.value = response.data;
         }
         catch (error) {
@@ -60,18 +74,10 @@ export const useGameStore = defineStore('game', () => {
             }
             else {
                 console.log(error);
+                resetChoices();
             }
         }
     }
-
-    watch(authenticationStore.tokenData, async (tokenData) => {
-        if (tokenData) {
-            await getOwnPlayer();
-        }
-        else {
-            player.value = null;
-        }
-    });
 
     return {
         playChoice,
@@ -83,6 +89,8 @@ export const useGameStore = defineStore('game', () => {
         resetChoices,
         createPlayer,
         gameStarted,
+        player,
+        getOwnPlayer,
     }
 })
 

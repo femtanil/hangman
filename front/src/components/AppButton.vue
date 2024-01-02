@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-ghost rounded-none text-3xl xs:text-4xl active:bg-transparent w-fit" @click="handleClick">
+    <button class="btn btn-ghost rounded-none text-3xl active:bg-transparent w-fit" @click="handleClick">
         <slot></slot>
     </button>
 </template>
