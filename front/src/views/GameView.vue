@@ -1,8 +1,8 @@
 <template>
     <div class="flex flex-col justify-between h-full max-w-full lg:grid lg:grid-cols-12">
-        <ProfileInformation />
+        <ProfileInformation v-if="visibleComponent == SelectScreen" />
         <component :is="visibleComponent" v-bind="currentProperties" />
-        <MiscInformation />
+        <MiscInformation v-if="visibleComponent == SelectScreen" />
     </div>
 </template>
 <script setup>
