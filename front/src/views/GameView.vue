@@ -1,26 +1,8 @@
 <template>
     <div class="flex flex-col justify-between h-full max-w-full lg:grid lg:grid-cols-12">
-        <div
-            class="collapse collapse-arrow bg-base-100 rounded-none lg:col-start-1 lg:col-end-4 outline outline-yellow-500">
-            <input type="checkbox" />
-            <div ref="firstSectionTitle" class="collapse-title text-xl text-indigo-500 outline outline-indigo-500">
-                first section title
-            </div>
-            <div class="collapse-content bg-base-200 text-rose-500 outline outline-rose-500">
-                first section content
-            </div>
-        </div>
+        <ProfileInformation />
         <component :is="visibleComponent" v-bind="currentProperties" />
-        <div
-            class="collapse collapse-arrow bg-base-100 rounded-none lg:col-start-10 lg:col-end-13 outline outline-yellow-500">
-            <input type="checkbox" />
-            <div class="collapse-title text-xl text-indigo-500 outline outline-indigo-500">
-                third section title
-            </div>
-            <div class="collapse-content bg-base-200 outline text-rose-500 outline-rose-500">
-                third section content
-            </div>
-        </div>
+        <MiscInformation />
     </div>
 </template>
 <script setup>
@@ -29,6 +11,8 @@ import { useAuthenticationStore } from '@/stores/authentication.js'
 import { computed, ref } from 'vue';
 import SelectScreen from '@/views/GameSelectScreenView.vue';
 import MainView from '@/views/GameMainView.vue';
+import ProfileInformation from '@/components/GameProfileInformation.vue';
+import MiscInformation from '@/components/GameMiscInformation.vue';
 
 const gameStore = useGameStore();
 const authStore = useAuthenticationStore();

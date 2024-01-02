@@ -9,7 +9,7 @@
             <div class="stat-value text-primary text-base self-center">someword</div>
         </div>
         <div class="stat flex flex-col justify-evenly px-0 py-2">
-            <div class="stat-title text-sm self-center">Highscore</div>
+            <div class="stat-title text-sm self-center">Score</div>
             <div class="stat-value text-base self-center">1337</div>
         </div>
     </div>
