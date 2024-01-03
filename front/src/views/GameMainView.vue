@@ -3,8 +3,9 @@
         <div class="row-span-1">
             <StatusBar class="" />
         </div>
-        <div class="row-start-4 row-end-5">
+        <div class="row-start-4 row-end-6">
             <WordToGuess />
+            <CharInput />
         </div>
         <div class="row-start-6 row-end-7">
             <div class="flex justify-center">
@@ -19,6 +20,7 @@
 <script setup>
 import StatusBar from '@/components/GameStatusBar.vue';
 import WordToGuess from '@/components/GameWordToGuess.vue';
+import CharInput from '@/components/GameCharacterInput.vue';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 import AppButton from '@/components/AppButton.vue';
 
