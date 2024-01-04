@@ -5,21 +5,17 @@
         </h3>
         <form @submit.prevent="submitForm" method="post">
             <div class="flex flex-col px-5">
-                <label for="username" class="text-xl">Username</label>
-                <input type="text" id="username" name="username" v-model="username" class="input input-bordered text-xl" />
+                <AppInput v-model="username" type="text" class="input input-bordered text-xl" :label="'Username'" />
             </div>
             <div class="flex flex-col px-5">
-                <label for="password" class="text-xl">Password</label>
-                <input type="password" id="password" name="password" v-model="password"
-                    class="input input-bordered text-xl" />
+                <AppInput v-model="password" type="password" class="input input-bordered text-xl" :label="'Password'" />
             </div>
             <div v-if="props.confirmPassword" class="flex flex-col px-5">
-                <label for="passwordConfirmation" class="text-xl">Confirm password</label>
-                <input type="password" id="passwordConfirmation" name="passwordConfirmation" v-model="passwordConfirmation"
-                    class="input input-bordered text-xl" />
+                <AppInput v-model="passwordConfirmation" type="password" class="input input-bordered text-xl"
+                    :label="'Confirm password'" />
             </div>
             <div class="flex justify-center">
-                <input type="submit" value="Login" class="btn btn-ghost rounded-none text-3xl active:bg-transparent" />
+                <AppInput type="submit" value="Login" class="btn btn-ghost rounded-none text-3xl active:bg-transparent" />
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
@@ -32,6 +28,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useAuthenticationStore } from '@/stores/authentication.js';
+import AppInput from '@/components/AppInput.vue';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
 const authenticationStore = useAuthenticationStore();

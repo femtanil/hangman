@@ -4,11 +4,8 @@
             Choose your player name
         </h3>
         <form @submit.prevent="submitForm" method="post">
-            <div class="flex justify-center">
-                <div class="grid grid-flow-row">
-                    <label for="playername" class="text-3xl xs:text-4xl">Player name</label>
-                    <input type="text" id="playername" name="username" v-model="playername" class="input input-bordered text-3xl xs:text-4xl" />
-                </div>
+            <div class="flex flex-col px-5">
+                <AppInput v-model="playername" type="text" class="input input-bordered text-xl" :label="'Playername'" />
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
@@ -22,6 +19,7 @@
 import { useGameStore } from '@/stores/game.js';
 import { ref } from 'vue';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
+import AppInput from '@/components/AppInput.vue';
 
 const gameStore = useGameStore();
 const playername = ref('');
