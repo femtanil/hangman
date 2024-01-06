@@ -1,19 +1,33 @@
 <template>
-    <form @submit.prevent="submitForm" method="post">
+    <form @submit="onSubmit" method="post">
         <div class="flex flex-col px-5">
-            <AppInput v-model="character" type="text" class="input input-bordered text-xl" placeholder="Type a letter" />
-            <AppInput type="submit" value="Submit" class="btn btn-ghost rounded-none text-3xl active:bg-transparent" />
+            <AppInput v-model="character" v-bind="characterAttrs" placeholder="Type a letter" type="text" />
+        </div>
+        <div class="flex justify-center">
+            <AppButton :disabled="isSubmitting" type="submit">{{ 'Confirm' }}</AppButton>
         </div>
     </form>
 </template>
 <script setup>
-import { useGameLogicStore } from '@/stores/gameLogic.js';
-import { useGameStore } from '@/stores/game.js';
-import { ref } from 'vue';
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/yup';
+import { object, string } from 'yup';
 import AppInput from '@/components/AppInput.vue';
+import AppButton from '@/components/AppButton.vue';
 
-const character = ref('')
+const schema = toTypedSchema(
+    object({
+        character: string().required().min(1).max(1).default(''),
+    }),
+);
+const { errors, handleSubmit, isSubmitting, defineField } = useForm({
+    validationSchema: schema,
+});
+const [character, characterAttrs] = defineField('character');
 
-const submitForm = function () {
-}
+const onSubmit = handleSubmit(async (values, { resetForm }) => {
+    const response = {};
+    resetForm();
+    return response;
+});
 </script>
