@@ -7,6 +7,7 @@
 </template>
 <script setup>
 import { useGameStore } from '@/stores/game.js';
+import { useGameLogicStore } from '@/stores/gameLogic.js';
 import { useAuthenticationStore } from '@/stores/authentication.js'
 import { computed } from 'vue';
 import SelectScreen from '@/views/GameSelectScreenView.vue';
@@ -15,6 +16,7 @@ import ProfileInformation from '@/components/GameProfileInformation.vue';
 import MiscInformation from '@/components/GameMiscInformation.vue';
 
 const gameStore = useGameStore();
+const gameLogicStore = useGameLogicStore();
 const authStore = useAuthenticationStore();
 
 const currentProperties = computed(() => {
@@ -36,13 +38,9 @@ const currentProperties = computed(() => {
 
 const visibleComponent = computed(() => {
     if (gameStore.playChoice) {
+        gameLogicStore.startGame();
         return MainView;
     }
-    /*
-    else if (authStore.tokenData !== null && gameStore.player !== null) {
-        return MainView;
-    }
-    */
     else if (gameStore.loginChoice) {
         return SelectScreen;
     }

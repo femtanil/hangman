@@ -3,41 +3,38 @@
         <h3 class="flex justify-center text-2xl">
             <slot name="formTitle"></slot>
         </h3>
-        <form @submit.prevent="submitForm" method="post">
+        <form @submit="onSubmit" method="post">
             <div class="flex flex-col px-5">
-                <label for="username" class="text-xl">Username</label>
-                <input type="text" id="username" name="username" v-model="username" class="input input-bordered text-xl" />
+                <AppInput v-model="username" v-bind="usernameAttrs" :label="'Username'" type="text" />
             </div>
             <div class="flex flex-col px-5">
-                <label for="password" class="text-xl">Password</label>
-                <input type="password" id="password" name="password" v-model="password"
-                    class="input input-bordered text-xl" />
+                <AppInput v-model="password" v-bind="passwordAttrs" :label="'Password'" type="password" />
             </div>
             <div v-if="props.confirmPassword" class="flex flex-col px-5">
-                <label for="passwordConfirmation" class="text-xl">Confirm password</label>
-                <input type="password" id="passwordConfirmation" name="passwordConfirmation" v-model="passwordConfirmation"
-                    class="input input-bordered text-xl" />
+                <AppInput v-model="passwordConfirmation" v-bind="passwordConfirmationAttrs" :label="'Confirm password'"
+                    type="password" />
             </div>
             <div class="flex justify-center">
-                <input type="submit" value="Login" class="btn btn-ghost rounded-none text-3xl active:bg-transparent" />
+                <AppButton :disabled="isSubmitting" type="submit">{{ 'Login' }}</AppButton>
             </div>
             <div class="flex justify-center">
                 <div class="grid grid-flow-row">
-                    <SelectScreenButton />
+                    <SelectScreenButton :disabled="isSubmitting" />
                 </div>
             </div>
         </form>
     </div>
 </template>
 <script setup>
-import { ref } from 'vue';
 import { useAuthenticationStore } from '@/stores/authentication.js';
+import { useForm } from 'vee-validate';
+import { toTypedSchema } from '@vee-validate/yup';
+import { object, string } from 'yup';
+import AppInput from '@/components/AppInput.vue';
+import AppButton from '@/components/AppButton.vue';
 import SelectScreenButton from '@/components/AppSelectScreenButton.vue';
 
 const authenticationStore = useAuthenticationStore();
-const username = ref('')
-const password = ref('')
-const passwordConfirmation = ref('')
 const props = defineProps({
     confirmPassword: {
         type: Boolean,
@@ -45,13 +42,30 @@ const props = defineProps({
     }
 })
 
-async function submitForm() {
-    const formData = new FormData();
-    formData.append('username', username.value);
-    formData.append('password', password.value);
-    formData.append('scope',
+const schema = toTypedSchema(
+    object({
+        username: string().required().min(3).max(20).default(''),
+        password: string().required().min(1).max(20).default(''),
+        //passwordConfirmation: string().required().min(8).max(20)
+    }),
+);
+const { errors, handleSubmit, isSubmitting, defineField } = useForm({
+    validationSchema: schema,
+});
+
+const [username, usernameAttrs] = defineField('username');
+const [password, passwordAttrs] = defineField('password');
+//const [passwordConfirmation, passwordConfirmationAttrs] = defineField('passwordConfirmation');
+
+const onSubmit = handleSubmit(async (values, { resetForm }) => {
+    const data = new FormData();
+    data.append('username', values.username);
+    data.append('password', values.password);
+    data.append('scope',
         'user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername');
-    authenticationStore.loginUser(formData);
-}
+    const response = await authenticationStore.loginUser(data);
+    resetForm();
+    return response;
+});
 
 </script>
