@@ -1,48 +1,43 @@
 # Hangman
 
-Simple hangman guessing game.
+Simple hangman guessing game using VueJS and FastAPI.
 
-## Install
+## Installing
 
-### Front
+### User interface
 
-The frontend can be installed using `npm`. Inside the `front` directory run:
+The user interface can be installed using `npm`. Inside the `front` directory run:
 ```commandline
 npm install
 ```
-### Back
+### Application server
+
 Dependencies are defined in `pyproject.toml` and `requirements.txt`.
-The backend can be installed in a virtual environment. For example using Poetry and inside the `app` directory:
+The application server can be installed in a virtual environment. For example using Poetry and inside the `app` directory:
 ```commandline
 poetry install
 ```
 
-## Start
-### Front
-Before starting the vite development server, create a `.env` file inside the `front` directory add these lines to it:
+## Starting
+
+### Environment
+Create a `.env` file at the root of the cloned repository. See `.env.example` for an example.
+The `ALGORITHM` and `SECRET_KEY` keys are used to sign JWT tokens.
+Change the value of `SECRET_KEY` to a randomly generated key using for example:
 ```commandline
-VITE_BACKEND_URL="[BackendUrl]"
+openssl rand -hex 32
 ```
-Replace BackendUrl with the URL of the uvicorn server, for example:
-```commandline
-VITE_BACKEND_URL="http://localhost:8000"
-```
+`ORIGINS` and `VITE_API_URL` keys define respectively the URLs where the user interface and the API are accessible.
+
+### User interface
+
 Start the vite development server using:
 ```commandline
 npm run dev
 ```
 
-### Back
-Before starting the uvicorn development server, create a `.env` file at the root of project and add these lines to it:
-```commandline
-#!/bin/bash
-export SECRET_KEY="09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7"
-export ALGORITHM="HS256"
-export ACCESS_TOKEN_EXPIRE_MINUTES=30
-```
-This very public secret key is used to hash the passwords in the development server allowing (for now) to have two default users for testing.
-
-Activate the virtual environment. For example using Poetry and inside the `app` directory:
+### Application server
+Activate the virtual environment where the server is installed. For example using Poetry and inside the `app` directory:
 ```commandline
 poetry shell
 ```

@@ -9,7 +9,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function loginUser(formData) {
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/login/`,
+                `${import.meta.env.VITE_API_URL}/login/`,
                 formData,
                 {
                     headers: {
@@ -29,7 +29,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
             // No endpoint yet.
             /*
             await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/logout/`,
+                `${import.meta.env.VITE_API_URL}/logout/`,
                 {},
                 {
                     headers: {
@@ -50,7 +50,7 @@ export const useAuthenticationStore = defineStore('authentication', () => {
     async function registerUser(formData) {
         try {
             const response = await axios.post(
-                `${import.meta.env.VITE_BACKEND_URL}/register/`,
+                `${import.meta.env.VITE_API_URL}/register/`,
                 formData);
             tokenData.value = response.data;
         }

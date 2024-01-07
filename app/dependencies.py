@@ -4,7 +4,6 @@ from typing import Annotated
 from fastapi import Depends, HTTPException, Query, Security, status
 from fastapi.security import OAuth2PasswordBearer, SecurityScopes
 from jose import JWTError, jwt
-from dotenv import load_dotenv
 from pydantic import ValidationError
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import Session, select
@@ -13,7 +12,6 @@ from .models import Player, PlayerCreate, User, UserCreate, TokenData
 from .database import engine
 from .authentication import get_password_hash
 
-load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
