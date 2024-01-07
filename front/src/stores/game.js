@@ -36,7 +36,7 @@ export const useGameStore = defineStore('game', () => {
 
     async function createPlayer(playername) {
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/players/`,
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/players/`,
                 {
                     "playername": playername,
                 },
@@ -57,7 +57,7 @@ export const useGameStore = defineStore('game', () => {
     async function getOwnPlayer() {
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_BACKEND_URL}/players/me`,
+                `${import.meta.env.VITE_API_URL}/players/me`,
                 {
                     headers: {
                         accept: 'application/json',

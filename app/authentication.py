@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 
 from passlib.context import CryptContext
 from jose import jwt
-from dotenv import load_dotenv
 from sqlalchemy.exc import NoResultFound
 from sqlmodel import Session, select
 
@@ -11,7 +10,6 @@ from app.database import engine
 from app.models import User
 
 
-load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
 
