@@ -30,7 +30,7 @@ openssl rand -hex 32
 `ORIGINS` and `VITE_API_URL` keys define respectively the URLs where the user interface and the API are accessible.
 
 ### User interface
-```
+
 Start the vite development server using:
 ```commandline
 npm run dev
