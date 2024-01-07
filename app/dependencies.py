@@ -300,3 +300,11 @@ async def remove_own_player(user: Annotated[User, Depends(get_own_user)]) -> Pla
     assert user.player_id is not None
     return await remove_player_by_id(user.player_id)
 
+
+async def guess_character(
+    token_data: Annotated[
+        TokenData, Security(validate_token, scopes=["user:own:player"])
+    ],
+    character: str,
+):
+    pass

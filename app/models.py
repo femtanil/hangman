@@ -61,7 +61,7 @@ class Administration(SQLModel, table=True):
     user_id: int = Field(foreign_key="user.id")
 
 
-class Game(SQLModel):
+class GameStats(SQLModel):
     player_id: int
     word_to_guess: str
     word_progress: str
