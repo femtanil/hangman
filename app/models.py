@@ -38,7 +38,7 @@ class UserRead(UserBase):
 
 class PlayerBase(SQLModel):
     playername: str = Field(index=True, unique=True)
-    username: str = Field(index=True, default=None, foreign_key="user.username")
+    user_id: int = Field(index=True, default=None, foreign_key="user.id")
     points: int = 0
     games_played: int = 0
     games_won: int = 0
@@ -62,6 +62,7 @@ class Administration(SQLModel, table=True):
 
 
 class Game(SQLModel):
+    player_id: int
     word_to_guess: str
     word_progress: str
     tries_left: int
@@ -70,7 +71,7 @@ class Game(SQLModel):
 def create_fake_player():
     player: Player = Player(
         playername="a-player-name",
-        username="unauthenticated",
+        user_id=0,
         points=1337,
         games_played=1,
         games_won=1,
@@ -106,7 +107,6 @@ def create_admin_user():
         id=0,
         username="admin",
         hashed_password="$2b$12$EixZaYVK1fsbw1ZfbX3OXePaWxn96p36WQoeG6Lruj3vjPGga31lW",
-        player_id=0,
         roles="admin",
     )
     db_user = User.model_validate(user)

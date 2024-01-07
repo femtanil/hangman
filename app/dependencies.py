@@ -299,3 +299,4 @@ async def remove_player(
 async def remove_own_player(user: Annotated[User, Depends(get_own_user)]) -> Player:
     assert user.player_id is not None
     return await remove_player_by_id(user.player_id)
+

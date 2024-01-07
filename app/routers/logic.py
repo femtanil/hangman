@@ -14,3 +14,13 @@ router = APIRouter(
 @router.get("/status", response_model=Game)
 async def read_game_status(token: Annotated[str, Depends(oauth2_scheme)]):
     pass
+
+
+@router.post("/start", response_model=Game)
+async def start_game(token: Annotated[str, Depends(oauth2_scheme)]):
+    pass
+
+
+@router.post("/guess", response_model=Game)
+async def guess_letter(token: Annotated[str, Depends(oauth2_scheme)]):
+    pass
