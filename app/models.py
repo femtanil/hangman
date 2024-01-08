@@ -24,7 +24,7 @@ class User(UserBase, table=True):
     hashed_password: str
     banned: bool = Field(default=False)
     roles: str = Field(
-        default="user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername"
+        default="user.create user:own user:own.write user:own:player user:own:player.write user:others:player:points user:others:player:playername websockets"
     )
 
 
