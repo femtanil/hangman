@@ -25,6 +25,7 @@ oauth2_scheme = OAuth2PasswordBearer(
         "user:own:player.write": "The ability to change the current user's player.",
         "user:others:player:points": "Read only access to players' points.",
         "user:others:player:playername": "Read only access to players' playernames.",
+        "websockets": "Access to the websocket.",
         "admin": "Full access to all information.",
     },
     auto_error=True,

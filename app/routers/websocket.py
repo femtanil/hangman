@@ -1,16 +1,22 @@
 from typing import Annotated
-from fastapi import Depends, APIRouter, WebSocket, WebSocketDisconnect
+from fastapi import APIRouter, Security, WebSocket, WebSocketDisconnect
 
+from app.dependencies import validate_token
 from app.game import Games
+from app.models import TokenData
 
 router = APIRouter(
-    prefix="/websocket",
-    tags=["websocket"],
+    prefix="/ws",
+    tags=["ws"],
 )
 
 
-@router.websocket("/ws/{player_id}")
-async def websocket_endpoint(player_id: int, websocket: WebSocket):
+@router.websocket("/{player_id}")
+async def websocket_endpoint(
+    player_id: int,
+    websocket: WebSocket,
+    token_data: Annotated[TokenData, Security(validate_token, scopes=["websockets"])],
+):
     await websocket.accept()
     games = Games()
 
