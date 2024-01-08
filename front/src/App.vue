@@ -21,11 +21,15 @@ import { computed } from 'vue';
 import { useElementPropertiesStore } from '@/stores/elementProperties.js';
 
 const elementPropertiesStore = useElementPropertiesStore();
+const backgroundImageClass = computed(() => {
+    return `object-cover h-[calc(100vh-${elementPropertiesStore.navbarHeight}px)] w-screen`;
+});
+
 const backgroundProperties = computed(() => {
     return {
         src: background,
         alt: 'Montreuil, Japan',
-        class: `object-cover h-[calc(100vh-${elementPropertiesStore.navbarHeight}px)] w-screen`
+        class: `${backgroundImageClass.value}`
     };
 });
 </script>
