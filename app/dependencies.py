@@ -25,6 +25,7 @@ oauth2_scheme = OAuth2PasswordBearer(
         "user:own:player.write": "The ability to change the current user's player.",
         "user:others:player:points": "Read only access to players' points.",
         "user:others:player:playername": "Read only access to players' playernames.",
+        "websockets": "Access to the websocket.",
         "admin": "Full access to all information.",
     },
     auto_error=True,
@@ -299,3 +300,12 @@ async def remove_player(
 async def remove_own_player(user: Annotated[User, Depends(get_own_user)]) -> Player:
     assert user.player_id is not None
     return await remove_player_by_id(user.player_id)
+
+
+async def guess_character(
+    token_data: Annotated[
+        TokenData, Security(validate_token, scopes=["user:own:player"])
+    ],
+    character: str,
+):
+    pass

@@ -5,10 +5,10 @@
         </h3>
         <form @submit="onSubmit" method="post">
             <div class="flex flex-col px-5">
-                <AppInput v-model="username" v-bind="usernameAttrs" :label="'Username'" type="text" />
+                <AppInput v-model="username" :label="'Username'" type="text" />
             </div>
             <div class="flex flex-col px-5">
-                <AppInput v-model="password" v-bind="passwordAttrs" :label="'Password'" type="password" />
+                <AppInput v-model="password" :label="'Password'" type="password" />
             </div>
             <div v-if="props.confirmPassword" class="flex flex-col px-5">
                 <AppInput v-model="passwordConfirmation" v-bind="passwordConfirmationAttrs" :label="'Confirm password'"
@@ -53,8 +53,8 @@ const { errors, handleSubmit, isSubmitting, defineField } = useForm({
     validationSchema: schema,
 });
 
-const [username, usernameAttrs] = defineField('username');
-const [password, passwordAttrs] = defineField('password');
+const [username] = defineField('username');
+const [password] = defineField('password');
 //const [passwordConfirmation, passwordConfirmationAttrs] = defineField('passwordConfirmation');
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {

@@ -8,7 +8,7 @@ load_dotenv()
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .routers import logic, tokens, users, players
+from .routers import tokens, users, players, websocket
 from .database import create_db_and_tables
 from .models import create_fake_player, create_unauthenticated_user, create_admin_user
 
@@ -35,6 +35,6 @@ api.add_middleware(
     allow_headers=["*"],
 )
 api.include_router(tokens.router)
-api.include_router(logic.router)
 api.include_router(players.router)
 api.include_router(users.router)
+api.include_router(websocket.router)

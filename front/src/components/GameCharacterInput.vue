@@ -1,7 +1,7 @@
 <template>
     <form @submit="onSubmit" method="post">
         <div class="flex flex-col px-5">
-            <AppInput v-model="character" v-bind="characterAttrs" placeholder="Type a letter" type="text" />
+            <AppInput v-model="character" placeholder="Type a letter" type="text" />
         </div>
         <div class="flex justify-center">
             <AppButton :disabled="isSubmitting" type="submit">{{ 'Confirm' }}</AppButton>
@@ -23,7 +23,7 @@ const schema = toTypedSchema(
 const { errors, handleSubmit, isSubmitting, defineField } = useForm({
     validationSchema: schema,
 });
-const [character, characterAttrs] = defineField('character');
+const [character] = defineField('character');
 
 const onSubmit = handleSubmit(async (values, { resetForm }) => {
     const response = {};
