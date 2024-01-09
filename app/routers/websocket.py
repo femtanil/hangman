@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 
-@router.websocket("/{player_id}")
+@router.websocket("/game/id={player_id}")
 async def websocket_endpoint(
     player_id: int,
     websocket: WebSocket,

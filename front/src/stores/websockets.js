@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
 import { useAuthenticationStore } from '@/stores/authentication.js';
+import { useGameStore } from '@/stores/game.js';
 import { ref } from 'vue';
 
 export const useWebsocketsStore = defineStore('websockets', () => {
     const authenticationStore = useAuthenticationStore();
+    const gameStore = useGameStore();
     const socket = ref(null); // The websocket connection.
     const socketConnected = ref(false); // Whether the websocket is connected.
     const socketError = ref(null); // The error that occurred on the websocket.
@@ -15,7 +17,7 @@ export const useWebsocketsStore = defineStore('websockets', () => {
     const socketReconnectMaxTimeoutTime = ref(10000); // The maximum time between reconnection attempts.
 
     function connectSocket() {
-        socket.value = new WebSocket(`${import.meta.env.VITE_API_URL}/ws/game/`);
+        socket.value = new WebSocket(`${import.meta.env.VITE_API_URL}/ws/game/id=${gameStore.player.value.id}/)}`);
         socket.value.onopen = () => {
             socketConnected.value = true;
             socketReconnectAttempts.value = 0;
